@@ -1,0 +1,482 @@
+[
+  {
+    "id": "loop-off-by-one-sum",
+    "assignment": "Write sumArray(nums) that returns the sum of all numbers in the array.",
+    "code": "function sumArray(nums) {\n  let total = 0;\n  for (let i = 0; i <= nums.length; i++) {\n    total += nums[i];\n  }\n  return total;\n}\n\nconsole.log(sumArray([1, 2, 3]));",
+    "error": "sumArray([1, 2, 3]) prints NaN instead of 6.",
+    "buggyLine": 3,
+    "fixSnippet": "i < nums.length"
+  },
+  {
+    "id": "loop-off-by-one-reverse",
+    "assignment": "Write reverseString(str) using a loop (no built-in reverse) that returns the string backwards.",
+    "code": "function reverseString(str) {\n  let result = \"\";\n  for (let i = str.length; i >= 0; i--) {\n    result += str[i];\n  }\n  return result;\n}\n\nconsole.log(reverseString(\"cat\"));",
+    "error": "reverseString(\"cat\") returns \"undefinedtac\".",
+    "buggyLine": 3,
+    "fixSnippet": "str.length - 1"
+  },
+  {
+    "id": "loose-equality-zero",
+    "assignment": "Write isZero(value) that returns true only when value is the number 0.",
+    "code": "function isZero(value) {\n  return value == 0;\n}\n\nconsole.log(isZero(0));\nconsole.log(isZero(\"\"));",
+    "error": "isZero(\"\") returns true, but an empty string should not count as zero.",
+    "buggyLine": 2,
+    "fixSnippet": "value === 0"
+  },
+  {
+    "id": "assignment-in-condition",
+    "assignment": "Show \"Your cart is empty\" when the item count is 0, otherwise show how many items are in the cart.",
+    "code": "function cartMessage(count) {\n  if (count = 0) {\n    return \"Your cart is empty\";\n  }\n  return `You have ${count} items`;\n}\n\ndocument.querySelector(\"#cart-status\").textContent = cartMessage(3);",
+    "error": "The page always says \"You have 0 items\" even when the cart has items, and never shows the empty message.",
+    "buggyLine": 2,
+    "fixSnippet": "count === 0"
+  },
+  {
+    "id": "missing-await-json",
+    "assignment": "Write loadUser(id) that fetches /api/users/:id and returns the user's name.",
+    "code": "async function loadUser(id) {\n  const res = await fetch(`/api/users/${id}`);\n  const data = res.json();\n  return data.name;\n}\n\nloadUser(1).then((name) => console.log(name));",
+    "error": "The console logs undefined instead of the user's name.",
+    "buggyLine": 3,
+    "fixSnippet": "await res.json()"
+  },
+  {
+    "id": "await-in-non-async",
+    "assignment": "Write getWeather(city) that fetches /api/weather?city=... and returns the temperature.",
+    "code": "function getWeather(city) {\n  const res = await fetch(`/api/weather?city=${city}`);\n  const data = await res.json();\n  return data.temperature;\n}\n\ngetWeather(\"Boston\").then((temp) => console.log(temp));",
+    "error": "SyntaxError: await is only valid in async functions and the top level bodies of modules",
+    "buggyLine": 1,
+    "fixSnippet": "async function getWeather"
+  },
+  {
+    "id": "missing-await-call",
+    "assignment": "Load the list of posts with getPosts() and print each post title.",
+    "code": "async function getPosts() {\n  const res = await fetch(\"/api/posts\");\n  return res.json();\n}\n\nasync function main() {\n  const posts = getPosts();\n  const titles = posts.map((p) => p.title);\n  console.log(titles);\n}\n\nmain();",
+    "error": "TypeError: posts.map is not a function",
+    "buggyLine": 7,
+    "fixSnippet": "await getPosts()"
+  },
+  {
+    "id": "then-missing-return",
+    "assignment": "Fetch /api/products and log the array of products.",
+    "code": "fetch(\"/api/products\")\n  .then((res) => {\n    res.json();\n  })\n  .then((products) => {\n    console.log(products);\n  });",
+    "error": "The second .then logs undefined.",
+    "buggyLine": 3,
+    "fixSnippet": "return res.json()"
+  },
+  {
+    "id": "forgot-return-double",
+    "assignment": "Write double(n) and use it with map to double every number in the array.",
+    "code": "function double(n) {\n  n * 2;\n}\n\nconst result = [1, 2, 3].map(double);\nconsole.log(result);",
+    "error": "Prints [undefined, undefined, undefined] instead of [2, 4, 6].",
+    "buggyLine": 2,
+    "fixSnippet": "return n * 2"
+  },
+  {
+    "id": "forgot-return-arrow-braces",
+    "assignment": "Use map to build an array of the squares of each number.",
+    "code": "const nums = [1, 2, 3, 4];\nconst squares = nums.map((n) => {\n  n * n;\n});\nconsole.log(squares);",
+    "error": "squares is [undefined, undefined, undefined, undefined].",
+    "buggyLine": 3,
+    "fixSnippet": "return n * n"
+  },
+  {
+    "id": "selector-missing-hash",
+    "assignment": "When the Send button is clicked, log \"clicked\". The HTML has <button id=\"submit-btn\">Send</button>.",
+    "code": "const button = document.querySelector(\"submit-btn\");\n\nbutton.addEventListener(\"click\", () => {\n  console.log(\"clicked\");\n});",
+    "error": "TypeError: Cannot read properties of null (reading 'addEventListener')",
+    "buggyLine": 1,
+    "fixSnippet": "\"#submit-btn\""
+  },
+  {
+    "id": "queryselector-not-all",
+    "assignment": "Add the class \"highlight\" to every element with class \"item\" on the page.",
+    "code": "const items = document.querySelector(\".item\");\n\nitems.forEach((item) => {\n  item.classList.add(\"highlight\");\n});",
+    "error": "TypeError: document.querySelector(...).forEach is not a function",
+    "buggyLine": 1,
+    "fixSnippet": "querySelectorAll"
+  },
+  {
+    "id": "getelementbyid-with-hash",
+    "assignment": "Set the page heading to \"Welcome back\". The HTML has <h1 id=\"title\"></h1>.",
+    "code": "const heading = document.getElementById(\"#title\");\nheading.textContent = \"Welcome back\";",
+    "error": "TypeError: Cannot set properties of null (setting 'textContent')",
+    "buggyLine": 1,
+    "fixSnippet": "getElementById(\"title\")"
+  },
+  {
+    "id": "mutate-shared-array",
+    "assignment": "Write addItem(cart, item) that returns a new cart with the item added. It must not change the original cart.",
+    "code": "function addItem(cart, item) {\n  const items = cart.items;\n  items.push(item);\n  return { ...cart, items };\n}\n\nconst before = { items: [\"apple\"] };\nconst after = addItem(before, \"pear\");\nconsole.log(before.items, after.items);",
+    "error": "After calling addItem, before.items also contains \"pear\".",
+    "buggyLine": 2,
+    "fixSnippet": "[...cart.items]"
+  },
+  {
+    "id": "react-sort-mutates-state",
+    "assignment": "Add a \"Sort high to low\" button to the Leaderboard component.",
+    "code": "import { useState } from \"react\";\n\nexport default function Leaderboard() {\n  const [scores, setScores] = useState([40, 95, 12, 70]);\n\n  function sortDesc() {\n    setScores(scores.sort((a, b) => b - a));\n  }\n\n  return (\n    <div>\n      <button onClick={sortDesc}>Sort high to low</button>\n      <ul>\n        {scores.map((s) => (\n          <li key={s}>{s}</li>\n        ))}\n      </ul>\n    </div>\n  );\n}",
+    "error": "Clicking the button does nothing; the list does not re-render in sorted order.",
+    "buggyLine": 7,
+    "fixSnippet": "[...scores].sort"
+  },
+  {
+    "id": "this-lost-method-callback",
+    "assignment": "Each click on the Tick button should add one second to the timer t.",
+    "code": "class Timer {\n  constructor() {\n    this.seconds = 0;\n  }\n\n  tick() {\n    this.seconds++;\n  }\n}\n\nconst t = new Timer();\nconst btn = document.querySelector(\"#tick\");\nbtn.addEventListener(\"click\", t.tick);",
+    "error": "t.seconds stays at 0 no matter how many times the button is clicked.",
+    "buggyLine": 13,
+    "fixSnippet": "t.tick.bind(t)"
+  },
+  {
+    "id": "arrow-method-this",
+    "assignment": "Give the user object a greet() method that returns \"Hi, \" followed by the user's name.",
+    "code": "const user = {\n  name: \"Ana\",\n  greet: () => {\n    return \"Hi, \" + this.name;\n  },\n};\n\nconsole.log(user.greet());",
+    "error": "Running it with node prints \"Hi, undefined\".",
+    "buggyLine": 3,
+    "fixSnippet": "greet() {"
+  },
+  {
+    "id": "preventdefault-not-called",
+    "assignment": "When the signup form is submitted, show a thank-you message without reloading the page.",
+    "code": "const form = document.querySelector(\"#signup\");\nconst message = document.querySelector(\"#message\");\n\nform.addEventListener(\"submit\", (event) => {\n  event.preventDefault;\n  const email = form.querySelector(\"#email\").value;\n  message.textContent = `Thanks, ${email}!`;\n});",
+    "error": "The message flashes for a split second and then the page reloads.",
+    "buggyLine": 5,
+    "fixSnippet": "event.preventDefault()"
+  },
+  {
+    "id": "string-plus-number-input",
+    "assignment": "When the quantity input changes, show the quantity plus one in #next-qty.",
+    "code": "const input = document.querySelector(\"#qty\");\nconst output = document.querySelector(\"#next-qty\");\n\ninput.addEventListener(\"change\", () => {\n  const next = input.value + 1;\n  output.textContent = next;\n});",
+    "error": "Typing 4 shows 41 instead of 5.",
+    "buggyLine": 5,
+    "fixSnippet": "Number(input.value) + 1"
+  },
+  {
+    "id": "sort-numbers-default",
+    "assignment": "Sort the test scores from lowest to highest.",
+    "code": "const scores = [25, 100, 9, 8];\nscores.sort();\nconsole.log(scores);",
+    "error": "Prints [100, 25, 8, 9] instead of [8, 9, 25, 100].",
+    "buggyLine": 2,
+    "fixSnippet": "(a, b) => a - b"
+  },
+  {
+    "id": "var-in-loop-closure",
+    "assignment": "Three buttons should alert their own index (0, 1, 2) when clicked.",
+    "code": "const buttons = document.querySelectorAll(\".choice\");\n\nfor (var i = 0; i < buttons.length; i++) {\n  buttons[i].addEventListener(\"click\", () => {\n    alert(i);\n  });\n}",
+    "error": "Every button alerts 3.",
+    "buggyLine": 3,
+    "fixSnippet": "let i = 0"
+  },
+  {
+    "id": "const-reassignment",
+    "assignment": "Write total(prices) that adds up an array of prices with a for...of loop.",
+    "code": "function total(prices) {\n  const sum = 0;\n  for (const p of prices) {\n    sum += p;\n  }\n  return sum;\n}\n\nconsole.log(total([5, 10, 2.5]));",
+    "error": "TypeError: Assignment to constant variable.",
+    "buggyLine": 2,
+    "fixSnippet": "let sum = 0"
+  },
+  {
+    "id": "length-typo",
+    "assignment": "Write countVowels(word) that returns how many vowels are in the word.",
+    "code": "function countVowels(word) {\n  let count = 0;\n  for (let i = 0; i < word.lenght; i++) {\n    if (\"aeiou\".includes(word[i])) {\n      count++;\n    }\n  }\n  return count;\n}\n\nconsole.log(countVowels(\"banana\"));",
+    "error": "countVowels(\"banana\") returns 0 instead of 3.",
+    "buggyLine": 3,
+    "fixSnippet": "word.length"
+  },
+  {
+    "id": "input-innertext",
+    "assignment": "When the Greet button is clicked, show \"Hello, <name>\" using the text typed in the #name input.",
+    "code": "const greetBtn = document.querySelector(\"#greet\");\n\ngreetBtn.addEventListener(\"click\", () => {\n  const name = document.querySelector(\"#name\").innerText;\n  document.querySelector(\"#out\").textContent = `Hello, ${name}`;\n});",
+    "error": "It always shows \"Hello, \" with no name, no matter what is typed.",
+    "buggyLine": 4,
+    "fixSnippet": ".value"
+  },
+  {
+    "id": "handler-called-immediately",
+    "assignment": "Show the menu only when the Menu button is clicked.",
+    "code": "const menuBtn = document.querySelector(\"#menu-btn\");\nconst menu = document.querySelector(\"#menu\");\n\nfunction handleClick() {\n  menu.classList.toggle(\"open\");\n}\n\nmenuBtn.addEventListener(\"click\", handleClick());",
+    "error": "The menu is visible as soon as the page loads, and clicking the button does nothing.",
+    "buggyLine": 8,
+    "fixSnippet": "handleClick);"
+  },
+  {
+    "id": "localstorage-missing-parse",
+    "assignment": "Load the saved todo list from localStorage and render each todo as a list item.",
+    "code": "const list = document.querySelector(\"#todos\");\nconst saved = localStorage.getItem(\"todos\");\n\nsaved.forEach((todo) => {\n  const li = document.createElement(\"li\");\n  li.textContent = todo;\n  list.appendChild(li);\n});",
+    "error": "TypeError: saved.forEach is not a function",
+    "buggyLine": 2,
+    "fixSnippet": "JSON.parse("
+  },
+  {
+    "id": "localstorage-missing-stringify",
+    "assignment": "Save the settings object to localStorage so it can be loaded later.",
+    "code": "const settings = { theme: \"dark\", fontSize: 16 };\n\nfunction saveSettings() {\n  localStorage.setItem(\"settings\", settings);\n}\n\nsaveSettings();",
+    "error": "localStorage shows the value \"[object Object]\" for the settings key.",
+    "buggyLine": 4,
+    "fixSnippet": "JSON.stringify(settings)"
+  },
+  {
+    "id": "typeof-array",
+    "assignment": "Write describe(input) that returns \"list\" for arrays and \"other\" for anything else.",
+    "code": "function describe(input) {\n  if (typeof input === \"array\") {\n    return \"list\";\n  }\n  return \"other\";\n}\n\nconsole.log(describe([1, 2]));",
+    "error": "describe([1, 2]) returns \"other\".",
+    "buggyLine": 2,
+    "fixSnippet": "Array.isArray(input)"
+  },
+  {
+    "id": "indexof-truthiness",
+    "assignment": "Write hasItem(list, item) that returns true if the item is in the list.",
+    "code": "function hasItem(list, item) {\n  if (list.indexOf(item)) {\n    return true;\n  }\n  return false;\n}\n\nconsole.log(hasItem([\"a\", \"b\"], \"a\"));",
+    "error": "hasItem([\"a\", \"b\"], \"a\") returns false, and hasItem([\"a\", \"b\"], \"z\") returns true.",
+    "buggyLine": 2,
+    "fixSnippet": "indexOf(item) !== -1"
+  },
+  {
+    "id": "dot-instead-of-bracket",
+    "assignment": "Write getField(user, key) that returns the value of the property named by key.",
+    "code": "function getField(user, key) {\n  return user.key;\n}\n\nconsole.log(getField({ name: \"Li\" }, \"name\"));",
+    "error": "getField({ name: \"Li\" }, \"name\") returns undefined.",
+    "buggyLine": 2,
+    "fixSnippet": "user[key]"
+  },
+  {
+    "id": "for-in-over-array",
+    "assignment": "Write sum(nums) that adds up the numbers in the array.",
+    "code": "function sum(nums) {\n  let total = 0;\n  for (const n in nums) {\n    total += n;\n  }\n  return total;\n}\n\nconsole.log(sum([5, 5, 5]));",
+    "error": "sum([5, 5, 5]) returns the string \"0012\".",
+    "buggyLine": 3,
+    "fixSnippet": "const n of nums"
+  },
+  {
+    "id": "foreach-instead-of-map",
+    "assignment": "Build an array of just the users' names.",
+    "code": "const users = [\n  { name: \"Ravi\", age: 20 },\n  { name: \"Mei\", age: 22 },\n];\n\nconst names = users.forEach((u) => u.name);\nconsole.log(names);",
+    "error": "names is undefined.",
+    "buggyLine": 6,
+    "fixSnippet": "users.map"
+  },
+  {
+    "id": "missing-promise-all",
+    "assignment": "Fetch all three URLs in parallel and log the JSON from each.",
+    "code": "const urls = [\"/api/a\", \"/api/b\", \"/api/c\"];\n\nasync function loadAll() {\n  const responses = await urls.map((url) => fetch(url));\n  const data = await responses[0].json();\n  console.log(data);\n}\n\nloadAll();",
+    "error": "TypeError: responses[0].json is not a function",
+    "buggyLine": 4,
+    "fixSnippet": "Promise.all("
+  },
+  {
+    "id": "string-compare-inputs",
+    "assignment": "Show a warning when the minimum price entered is larger than the maximum price.",
+    "code": "const minInput = document.querySelector(\"#min\");\nconst maxInput = document.querySelector(\"#max\");\nconst warning = document.querySelector(\"#warning\");\n\ndocument.querySelector(\"#check\").addEventListener(\"click\", () => {\n  if (minInput.value > maxInput.value) {\n    warning.hidden = false;\n  } else {\n    warning.hidden = true;\n  }\n});",
+    "error": "With min = 10 and max = 9 no warning is shown.",
+    "buggyLine": 6,
+    "fixSnippet": "Number(minInput.value) > Number(maxInput.value)"
+  },
+  {
+    "id": "dice-range",
+    "assignment": "Write rollDie() that returns a random whole number from 1 to 6.",
+    "code": "function rollDie() {\n  return Math.floor(Math.random() * 6);\n}\n\nconsole.log(rollDie());",
+    "error": "Sometimes returns 0 and never returns 6.",
+    "buggyLine": 2,
+    "fixSnippet": "Math.floor(Math.random() * 6) + 1"
+  },
+  {
+    "id": "splice-instead-of-slice",
+    "assignment": "Write firstThree(list) that returns the first three items without changing the original list.",
+    "code": "function firstThree(list) {\n  return list.splice(0, 3);\n}\n\nconst names = [\"a\", \"b\", \"c\", \"d\", \"e\"];\nconsole.log(firstThree(names));\nconsole.log(names);",
+    "error": "After calling firstThree(names), names only has 2 items left.",
+    "buggyLine": 2,
+    "fixSnippet": "list.slice(0, 3)"
+  },
+  {
+    "id": "createelement-angle-brackets",
+    "assignment": "Add each task as a new <li> in the #tasks list.",
+    "code": "const tasks = [\"Read chapter 3\", \"Finish lab\"];\nconst ul = document.querySelector(\"#tasks\");\n\nfor (const task of tasks) {\n  const li = document.createElement(\"<li>\");\n  li.textContent = task;\n  ul.appendChild(li);\n}",
+    "error": "DOMException: Failed to execute 'createElement' on 'Document': The tag name provided ('<li>') is not a valid name.",
+    "buggyLine": 5,
+    "fixSnippet": "createElement(\"li\")"
+  },
+  {
+    "id": "classname-add",
+    "assignment": "When the box is clicked, add the class \"active\" to it.",
+    "code": "const box = document.querySelector(\"#box\");\n\nbox.addEventListener(\"click\", () => {\n  box.className.add(\"active\");\n});",
+    "error": "TypeError: box.className.add is not a function",
+    "buggyLine": 4,
+    "fixSnippet": "classList.add"
+  },
+  {
+    "id": "style-kebab-case",
+    "assignment": "Turn the alert box red when the Danger button is clicked.",
+    "code": "const alertBox = document.querySelector(\"#alert\");\n\ndocument.querySelector(\"#danger\").addEventListener(\"click\", () => {\n  alertBox.style.background-color = \"red\";\n});",
+    "error": "SyntaxError: Invalid left-hand side in assignment",
+    "buggyLine": 4,
+    "fixSnippet": "style.backgroundColor"
+  },
+  {
+    "id": "getmonth-zero-based",
+    "assignment": "Write formatDate(d) that returns the date as YYYY-M-D, for example 2024-1-15 for January 15.",
+    "code": "function formatDate(d) {\n  const year = d.getFullYear();\n  const month = d.getMonth();\n  const day = d.getDate();\n  return `${year}-${month}-${day}`;\n}\n\nconsole.log(formatDate(new Date(2024, 0, 15)));",
+    "error": "formatDate(new Date(2024, 0, 15)) returns \"2024-0-15\".",
+    "buggyLine": 3,
+    "fixSnippet": "d.getMonth() + 1"
+  },
+  {
+    "id": "reduce-missing-initial",
+    "assignment": "Write cartTotal(cart) that returns the sum of item prices.",
+    "code": "const cart = [\n  { name: \"pen\", price: 10 },\n  { name: \"eraser\", price: 5 },\n];\n\nfunction cartTotal(items) {\n  return items.reduce((sum, item) => sum + item.price);\n}\n\nconsole.log(cartTotal(cart));",
+    "error": "cartTotal returns \"[object Object]5\" instead of 15.",
+    "buggyLine": 7,
+    "fixSnippet": "item.price, 0)"
+  },
+  {
+    "id": "fetch-body-not-stringified",
+    "assignment": "POST a new note to /api/notes with a JSON body containing its title.",
+    "code": "async function createNote(title) {\n  const res = await fetch(\"/api/notes\", {\n    method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\" },\n    body: { title },\n  });\n  return res.json();\n}\n\ncreateNote(\"Groceries\");",
+    "error": "The server receives the body \"[object Object]\" and responds 400 Bad Request.",
+    "buggyLine": 5,
+    "fixSnippet": "JSON.stringify({ title })"
+  },
+  {
+    "id": "includes-case-sensitive",
+    "assignment": "Filter the book list so the search is case-insensitive (typing \"harry\" should match \"Harry Potter\").",
+    "code": "const books = [\"Harry Potter\", \"The Hobbit\", \"Dune\"];\n\nfunction searchBooks(search) {\n  return books.filter((title) => title.includes(search));\n}\n\nconsole.log(searchBooks(\"harry\"));",
+    "error": "Searching \"harry\" returns no books.",
+    "buggyLine": 4,
+    "fixSnippet": "title.toLowerCase().includes(search.toLowerCase())"
+  },
+  {
+    "id": "filter-assignment",
+    "assignment": "Return only the users whose active flag is true.",
+    "code": "const users = [\n  { name: \"Kim\", active: true },\n  { name: \"Lee\", active: false },\n];\n\nconst activeUsers = users.filter((u) => (u.active = true));\nconsole.log(activeUsers);",
+    "error": "Every user is returned, and inactive users now show active: true.",
+    "buggyLine": 6,
+    "fixSnippet": "u.active === true"
+  },
+  {
+    "id": "innerhtml-overwrite-in-loop",
+    "assignment": "Render every item in the array as an <li> inside #list.",
+    "code": "const items = [\"apple\", \"banana\", \"cherry\"];\nconst list = document.querySelector(\"#list\");\n\nfor (const item of items) {\n  list.innerHTML = `<li>${item}</li>`;\n}",
+    "error": "Only the last item (\"cherry\") shows up.",
+    "buggyLine": 5,
+    "fixSnippet": "list.innerHTML +="
+  },
+  {
+    "id": "recursion-missing-return",
+    "assignment": "Write a recursive factorial(n).",
+    "code": "function factorial(n) {\n  if (n === 0) {\n    1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));",
+    "error": "RangeError: Maximum call stack size exceeded",
+    "buggyLine": 3,
+    "fixSnippet": "return 1"
+  },
+  {
+    "id": "console-log-instead-of-return",
+    "assignment": "Write getGreeting(name) and display its result in #out.",
+    "code": "function getGreeting(name) {\n  console.log(\"Hello, \" + name);\n}\n\ndocument.querySelector(\"#out\").textContent = getGreeting(\"Sam\");",
+    "error": "The page shows \"undefined\", although \"Hello, Sam\" appears in the console.",
+    "buggyLine": 2,
+    "fixSnippet": "return \"Hello, \" + name"
+  },
+  {
+    "id": "template-literal-quotes",
+    "assignment": "Show a welcome message that includes the user's name.",
+    "code": "const name = \"Jordan\";\nconst banner = document.querySelector(\"#banner\");\n\nbanner.textContent = \"Welcome, ${name}!\";",
+    "error": "The page literally shows \"Welcome, ${name}!\".",
+    "buggyLine": 4,
+    "fixSnippet": "`Welcome, ${name}!`"
+  },
+  {
+    "id": "checkbox-value",
+    "assignment": "Only enable the Continue button when the terms checkbox is checked.",
+    "code": "const checkbox = document.querySelector(\"#terms\");\nconst continueBtn = document.querySelector(\"#continue\");\n\ncheckbox.addEventListener(\"change\", () => {\n  const agreed = checkbox.value;\n  continueBtn.disabled = !agreed;\n});",
+    "error": "The button is enabled even when the box is unchecked.",
+    "buggyLine": 5,
+    "fixSnippet": "checkbox.checked"
+  },
+  {
+    "id": "key-name-case",
+    "assignment": "Submit the chat message when the user presses Enter in the input.",
+    "code": "const chatInput = document.querySelector(\"#chat\");\n\nchatInput.addEventListener(\"keydown\", (event) => {\n  if (event.key === \"enter\") {\n    sendMessage(chatInput.value);\n    chatInput.value = \"\";\n  }\n});",
+    "error": "Pressing Enter does nothing.",
+    "buggyLine": 4,
+    "fixSnippet": "\"Enter\""
+  },
+  {
+    "id": "react-setstate-drops-fields",
+    "assignment": "Build a signup form component that keeps name and email in one state object.",
+    "code": "import { useState } from \"react\";\n\nexport default function SignupForm() {\n  const [form, setForm] = useState({ name: \"\", email: \"\" });\n\n  return (\n    <form>\n      <input\n        value={form.name}\n        onChange={(e) => setForm({ ...form, name: e.target.value })}\n      />\n      <input\n        value={form.email}\n        onChange={(e) => setForm({ email: e.target.value })}\n      />\n    </form>\n  );\n}",
+    "error": "After typing an email, the name field becomes empty and React warns about a controlled input becoming uncontrolled.",
+    "buggyLine": 14,
+    "fixSnippet": "{ ...form, email: e.target.value }"
+  },
+  {
+    "id": "react-useeffect-no-deps",
+    "assignment": "Fetch the posts once when the PostList component mounts.",
+    "code": "import { useEffect, useState } from \"react\";\n\nexport default function PostList() {\n  const [posts, setPosts] = useState([]);\n\n  useEffect(() => {\n    fetch(\"/api/posts\")\n      .then((r) => r.json())\n      .then(setPosts);\n  });\n\n  return <ul>{posts.map((p) => <li key={p.id}>{p.title}</li>)}</ul>;\n}",
+    "error": "The Network tab shows /api/posts being requested over and over without stopping.",
+    "buggyLine": 10,
+    "fixSnippet": "}, []);"
+  },
+  {
+    "id": "react-onclick-called-in-render",
+    "assignment": "Each row has a Delete button that removes that item.",
+    "code": "export default function ItemRow({ item, onDelete }) {\n  return (\n    <li>\n      {item.name}\n      <button onClick={onDelete(item.id)}>Delete</button>\n    </li>\n  );\n}",
+    "error": "Every item disappears as soon as the list renders, and React warns \"Cannot update a component while rendering a different component\".",
+    "buggyLine": 5,
+    "fixSnippet": "() => onDelete(item.id)"
+  },
+  {
+    "id": "express-wrong-param-name",
+    "assignment": "GET /users/:id should return the user with that id as JSON.",
+    "code": "import express from \"express\";\nimport { findUser } from \"./db.js\";\n\nconst app = express();\n\napp.get(\"/users/:id\", (req, res) => {\n  const user = findUser(req.params.userId);\n  if (!user) {\n    return res.status(404).send(\"User not found\");\n  }\n  res.json(user);\n});\n\napp.listen(3000);",
+    "error": "Every request returns 404 \"User not found\", even for ids that exist.",
+    "buggyLine": 7,
+    "fixSnippet": "req.params.id"
+  },
+  {
+    "id": "express-id-type-mismatch",
+    "assignment": "GET /books/:id should return the matching book from the in-memory array.",
+    "code": "import express from \"express\";\n\nconst app = express();\nconst books = [\n  { id: 1, title: \"Dune\" },\n  { id: 2, title: \"Emma\" },\n];\n\napp.get(\"/books/:id\", (req, res) => {\n  const book = books.find((b) => b.id === req.params.id);\n  if (!book) return res.sendStatus(404);\n  res.json(book);\n});\n\napp.listen(3000);",
+    "error": "GET /books/2 always responds with 404 even though a book with id 2 exists.",
+    "buggyLine": 10,
+    "fixSnippet": "Number(req.params.id)"
+  },
+  {
+    "id": "word-count-undefined",
+    "assignment": "Write countWords(text) that returns an object mapping each word to how many times it appears.",
+    "code": "function countWords(text) {\n  const counts = {};\n  for (const word of text.split(\" \")) {\n    counts[word]++;\n  }\n  return counts;\n}\n\nconsole.log(countWords(\"a b a\"));",
+    "error": "countWords(\"a b a\") returns { a: NaN, b: NaN }.",
+    "buggyLine": 4,
+    "fixSnippet": "(counts[word] || 0) + 1"
+  },
+  {
+    "id": "react-state-direct-assign",
+    "assignment": "Toggle a dark mode flag when the button is clicked.",
+    "code": "import { useState } from \"react\";\n\nexport default function ThemeToggle() {\n  const [dark, setDark] = useState(false);\n\n  function toggle() {\n    dark = !dark;\n  }\n\n  return (\n    <div className={dark ? \"dark\" : \"light\"}>\n      <button onClick={toggle}>Toggle theme</button>\n    </div>\n  );\n}",
+    "error": "Clicking the button throws TypeError: Assignment to constant variable.",
+    "buggyLine": 7,
+    "fixSnippet": "setDark(!dark)"
+  },
+  {
+    "id": "average-precedence",
+    "assignment": "Write average(a, b, c) that returns the mean of three numbers.",
+    "code": "function average(a, b, c) {\n  return a + b + c / 3;\n}\n\nconsole.log(average(3, 6, 9));",
+    "error": "average(3, 6, 9) returns 12 instead of 6.",
+    "buggyLine": 2,
+    "fixSnippet": "(a + b + c) / 3"
+  },
+  {
+    "id": "range-check-and-or",
+    "assignment": "Show an error if the age entered is less than 0 or greater than 120.",
+    "code": "function validateAge(age) {\n  if (age < 0 && age > 120) {\n    return \"Please enter a real age\";\n  }\n  return \"\";\n}\n\nconsole.log(validateAge(-5));",
+    "error": "Entering -5 or 200 shows no error.",
+    "buggyLine": 2,
+    "fixSnippet": "age < 0 || age > 120"
+  },
+  {
+    "id": "trim-not-called",
+    "assignment": "Reject empty usernames, ignoring spaces around the name.",
+    "code": "const form = document.querySelector(\"#login\");\n\nform.addEventListener(\"submit\", (event) => {\n  event.preventDefault();\n  const username = form.querySelector(\"#username\").value.trim;\n  if (username === \"\") {\n    alert(\"Username is required\");\n    return;\n  }\n  document.querySelector(\"#welcome\").textContent = `Hi, ${username}`;\n});",
+    "error": "The page shows \"Hi, function trim() { [native code] }\" and empty names are never rejected.",
+    "buggyLine": 5,
+    "fixSnippet": "trim()"
+  }
+]
